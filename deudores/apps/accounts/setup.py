@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 
 def setup_roles():
     """
-    Crea grupos y permisos de negocio de forma segura e idempotente.
+    Crea grupos y permisos de negocio de forma segura.
     """
     try:
         User = get_user_model()
