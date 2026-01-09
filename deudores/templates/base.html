@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Consulta Deudores{% endblock %}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color:  #1a0d2c;;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+    background: rgba(10, 5, 20, 0.85); /* Un poco más oscuro para mayor contraste */
+    backdrop-filter: blur(20px);
+    width: 100%;
+    height: 100px; /* Aumentado a 100px para mayor presencia */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px; /* Más aire a los costados */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    box-sizing: border-box;
+}
+
+/* Logo más grande y con más brillo */
+.logo-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.logo-header {
+    height: 65px; /* Logo más grande y legible */
+    width: auto;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+}
+
+/* Barra de Usuario más robusta */
+.user-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Más espacio interno */
+    padding: 12px 25px; /* Más acolchado */
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 60px;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.user-name {
+    font-weight: 700;
+    font-size: 1.1em; /* Texto más grande */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.divider {
+    font-size: 1.2em;
+    color: #FFAA00; /* El naranja de tu marca para el separador */
+    opacity: 0.8;
+}
+
+/* Iconos de Logout y Volver escalados */
+.logout-icon {
+    width: 28px; /* Iconos más grandes */
+    height: auto;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.logout-icon:hover {
+    transform: scale(1.25) rotate(-5deg);
+    filter: drop-shadow(0 0 10px #FFAA00);
+}
+
+#volver {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+#volver:hover {
+    background: rgba(255, 255, 255, 0.1);
+} 
+    </style>
+</head>
+<body>
+    <header>
+        {% if user.is_authenticated %}
+            <div id="volver">
+                <a href="{% url 'dashboard' %}" title="Atrás">
+                    <img src="{% static 'images/casa.png' %}" alt="Volver" class="logout-icon">
+                </a>
+            </div>
+    
+            <div class="logo-container">
+                <img src="{% static 'images/Logo3.png' %}" alt="Velonet" class="logo-header">
+            </div>
+    
+            <div class="user-bar">    
+                <span class="user-name">{{ user.username }}</span>
+                <span class="divider">|</span>
+                <a href="{% url 'logout' %}" title="Cerrar Sesión">
+                    <img src="{% static 'images/salida.png' %}" alt="Salir" class="logout-icon">
+                </a>
+            </div>
+        {% endif %}
+    </header>
+    <hr>
+
+    {% block content %}{% endblock %}
+</body>
+</html>

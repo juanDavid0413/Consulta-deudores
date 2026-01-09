@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/queries_form.css' %}">
+{% endblock %}
+
+<div id="loading-overlay">
+    <div class="spinner"></div>
+    <p style="color: white; margin-top: 15px; letter-spacing: 2px;">CONSULTANDO BASES DE DATOS...</p>
+</div>
+
+<div class="search-page-wrapper">
+    <div class="container-search">
+        <div class="inner-box-search">
+            <form method="post" class="form-search" id="searchForm">
+                {% csrf_token %}
+                <h2>Consulta de Deudores</h2>
+                <p>Número de Cédula</p>
+                {{ form.cedula }}
+                <button type="submit" class="btn-submit">🔍 CONSULTAR AHORA</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if results %}
+<div class="card-resultado">
+    <div class="resultado-inner">
+        <h1 style="font-size: 2em; font-weight: 900; margin-bottom: 10px; 
+            {% if results.es_apto %} color: #00ff88; text-shadow: 0 0 10px rgba(0,255,136,0.3); {% else %} color: #ff0055; text-shadow: 0 0 10px rgba(255,0,85,0.3); {% endif %}">
+            {% if results.es_apto %} APTO PARA PROCESO {% else %} TRÁMITE DENEGADO {% endif %}
+        </h1>
+        
+        <p style="color: #bbb; margin-bottom: 25px;">
+            {% if results.es_apto %} El sistema no ha detectado obligaciones pendientes. {% else %} Se requiere verificación manual de los registros encontrados. {% endif %}
+        </p>
+
+        <div style="margin-bottom: 20px;">
+            <button onclick="toggleDetails()" id="btn-details" style="
+                background: #692A86; color: white; padding: 12px 30px; border-radius: 50px; 
+                cursor: pointer; border: 1px solid rgba(255,255,255,0.2); font-weight: bold;
+                transition: 0.3s; font-family: 'Poppins', sans-serif;">
+                Ver Detalles Técnicos
+            </button>
+        </div>
+
+        <div id="tech-details" style="display: none; text-align: left; background: rgba(0, 0, 0, 0.3); 
+            padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); color: #eee; margin-bottom: 25px;">
+            
+            <h3 style="color: #FFAA00; margin-bottom: 20px; border-bottom: 1px solid rgba(255,170,0,0.2); padding-bottom: 10px; font-size: 1.1em; letter-spacing: 1px;">
+                REPORTES DEL SISTEMA
+            </h3>
+
+            <div style="margin-bottom: 25px;">
+                <h4 style="color: #00ccff; margin-bottom: 8px;">🌐 Wispro Cloud</h4>
+                {% if results.wispro.existe %}
+                    <p><strong>Cliente:</strong> {{ results.wispro.nombre }}</p>
+                    {% if results.wispro.en_mora %}
+                        <p style="color: #ff0055; margin-top: 5px;">🔴 Facturas en Mora:</p>
+                        <ul style="font-size: 0.9em; list-style: none; padding-left: 10px; margin-top: 5px;">
+                            {% for f in results.wispro.facturas %}
+                                <li style="margin-bottom: 3px;">📄 #{{ f.numero }} - <span style="color: #ff0055;">${{ f.saldo|floatformat:0 }}</span> (Vence: {{ f.vencimiento }})</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% if results.wispro.tiene_contratos %}
+                        <p style="color: #ffaa00; margin-top: 5px;">📄 Contratos Activos:</p>
+                        <ul style="font-size: 0.9em; list-style: none; padding-left: 10px;">
+                            {% for c in results.wispro.contratos %}
+                                <li>🆔 {{ c.public_id }} - Estado: <span style="color: #00ff88;">{{ c.estado }}</span></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% else %}
+                    <p style="color: #bbb; font-style: italic;">ℹ️ No registrado en Wispro.</p>
+                {% endif %}
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h4 style="color: #00ccff; margin-bottom: 8px;">📊 Integrator</h4>
+                {% if results.bd_facturacion %}
+                    <p style="color: #ff0055; font-weight: bold; margin-bottom: 5px;">Deuda Total: ${{ results.total_bd_facturacion|floatformat:0 }}</p>
+                    <table style="width: 100%; font-size: 0.9em; border-collapse: collapse;">
+                        {% for r in results.bd_facturacion %}
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 5px 0;">{{ r.nombre }}</td>
+                                <td style="text-align: right; font-weight: bold; color: #ff0055;">${{ r.saldo|floatformat:0 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p style="color: #00ff88;">✔ Sin registros pendientes en Integrator.</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <h4 style="color: #00ccff; margin-bottom: 8px;">🗄️ Fenalco</h4>
+                {% if results.bd2 %}
+                    <p style="color: #ffaa00; font-weight: bold; margin-bottom: 5px;">Monto Reportado: ${{ results.total_bd2|floatformat:0 }}</p>
+                    <table style="width: 100%; font-size: 0.9em; border-collapse: collapse;">
+                        {% for r in results.bd2 %}
+                            <tr>
+                                <td style="padding: 5px 0;">{{ r.nombre }}</td>
+                                <td style="text-align: right; font-weight: bold; color: #ffaa00;">${{ r.monto|floatformat:0 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <p style="color: #00ff88;">✔ No aparece reportado en Fenalco.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+            <a href="{% url 'dashboard' %}" style="color: #FFAA00; text-decoration: none; font-weight: 600; font-size: 0.9em; letter-spacing: 1px;">
+                ⬅ VOLVER AL DASHBOARD
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleDetails() {
+        const details = document.getElementById('tech-details');
+        const btn = document.getElementById('btn-details');
+        
+        if (details.style.display === 'none') {
+            details.style.display = 'block';
+            btn.innerText = 'Ocultar Detalles';
+            btn.style.background = '#4a1a5c';
+        } else {
+            details.style.display = 'none';
+            btn.innerText = 'Ver Detalles Técnicos';
+            btn.style.background = '#692A86';
+        }
+    }
+</script>
+{% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // CORRECCIÓN: El ID ahora coincide con el del formulario
+        const searchForm = document.getElementById('searchForm');
+        const overlay = document.getElementById('loading-overlay');
+
+        if (searchForm) {
+            searchForm.addEventListener('submit', function() {
+                overlay.style.display = 'flex';
+            });
+        }
+    });
+</script>
+
+{% endblock %}

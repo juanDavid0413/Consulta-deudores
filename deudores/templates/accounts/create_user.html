@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Crear usuario{% endblock %}
+{% block content %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/create_user.css' %}">
+{% endblock %}
+<div class="page-wrapper">
+    <div class="Menu-card">
+        <div class="inner-box">
+            <h2>Crear Nuevo Usuario</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+
+                <p>
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </p>
+
+                <p>
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                    {{ form.password.errors }}
+                </p>
+
+                <p>
+                    {{ form.role.label_tag }}
+                    {{ form.role }}
+                    {{ form.role.errors }}
+                </p>
+
+                <button type="submit">Crear usuario</button>
+            </form>
+        </div>
+    </div>
+</div>
+<a href="{% url 'dashboard' %}" class="back-link">⬅ Volver al dashboard</a>
+
+{% endblock %}

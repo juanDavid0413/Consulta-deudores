@@ -1,0 +1,76 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+<body>
+   
+    <div id="Saludo" style="text-align: center; margin-bottom: 50px;">
+        <h1 style="font-size: 2.5em; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; background: linear-gradient(90deg, #fff, #FFAA00); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Panel de Control Velonet
+        </h1>
+        <p style="color: rgba(255,255,255,0.6); font-size: 1.1em; max-width: 600px; margin: 10px auto;">
+            Bienvenido, <span style="color: #FFAA00;">{{ user.username }}</span>. Selecciona una de las herramientas inteligentes para gestionar la base de datos de deudores.
+        </p>
+    </div>
+
+    <div id="Menu">
+        {% if perms.auth.add_user %}
+        <a href="{% url 'create_user' %}" class="Menu-card">
+            <div class="Menu-card-inner">
+                <img src="{% static 'images/cliente.png' %}" alt="Usuarios" class="Cards-img"> 
+                <p>Crear usuarios</p>
+            </div>
+        </a>
+        {% endif %}
+    
+        {% if perms.accounts.can_upload_excel %}
+        <a href="#" class="Menu-card">
+            <div class="Menu-card-inner">
+                <img src="{% static 'images/carga-en-la-nube.png' %}" alt="Carga" class="Cards-img"> 
+                <p>Carga de archivos</p>
+            </div>
+        </a>
+        {% endif %}
+    
+        {% if perms.auth.can_consult_debtors %}
+        <a href="{% url 'consulta_deudor' %}" class="Menu-card">
+            <div class="Menu-card-inner">
+                <img src="{% static 'images/signo-de-interrogacion.png' %}" alt="Consulta" class="Cards-img"> 
+                <p>Consulta Deudores</p>
+            </div>
+        </a>
+        {% endif %}
+    </div>
+
+    {% if show_welcome_anim %}
+    <div id="welcome-screen">
+        <div class="welcome-content">
+            <img src="{% static 'images/Logo3.png' %}" alt="Velonet" class="welcome-logo">
+            <div class="welcome-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <p class="welcome-text">Iniciando Sesión Segura...</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const screen = document.getElementById('welcome-screen');
+            if (screen) {
+                setTimeout(() => {
+                    screen.classList.add('fade-out');
+                    setTimeout(() => screen.remove(), 800);
+                }, 2500);
+            }
+        });
+    </script>
+{% endif %}
+
+</body>
+{% endblock %}
+

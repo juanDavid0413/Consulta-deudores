@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px); /* Resta la altura aproximada de tu header */
+    background: #1a0d2c;
+    }
+    /* CONTENEDOR CON BORDE NEÓN GIRATORIO */
+    .Menu-card {
+        position: relative;
+        width: 480px;
+        height: 650px;
+        border-radius: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        z-index: 1;
+        box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    }
+
+    .Menu-card::before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%;
+        width: 200%; height: 200%;
+        background: conic-gradient(transparent, transparent, transparent, #FFAA00, #692A86);
+        animation: rotate-border 4s linear infinite;
+        z-index: -2;
+    }
+
+    @keyframes rotate-border {
+        100% { transform: rotate(360deg); }
+    }
+
+    /* CAJA INTERNA (CRISTAL OSCURO) */
+    .inner-box {
+        position: absolute;
+        inset: 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 22px;
+        background: rgba(15, 5, 25, 0.96);
+        backdrop-filter: blur(20px);
+        z-index: 10;
+        padding: 40px;
+    }
+
+    h2 {
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: white;
+        margin-bottom: 30px;
+        font-size: 1.5em;
+        text-align: center;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    form p {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    /* ESTILO DE ETIQUETAS */
+    label {
+        color: #FFAA00 !important;
+        font-size: 0.8em;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    /* ESTILO DE LOS INPUTS Y SELECTS DE DJANGO */
+    input, select {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        font-size: 1em;
+        transition: 0.3s;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        border-color: #FFAA00;
+        box-shadow: 0 0 10px rgba(255, 170, 0, 0.2);
+    }
+
+    /* Estilo específico para corregir el fondo del SELECT en modo oscuro */
+    select option {
+        background-color: #1a0d2c;
+        color: white;
+    }
+
+    /* BOTÓN CREAR */
+    button {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(90deg, #692A86, #FFAA00);
+        color: white;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: 0.4s;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 25px rgba(255, 170, 0, 0.4);
+        filter: brightness(1.2);
+    }
+
+    /* ERRORES */
+    .errorlist {
+        color: #ff0055;
+        font-size: 0.75em;
+        list-style: none;
+        margin-top: 5px;
+    }
+
+    /* ENLACE VOLVER */
+    .back-link {
+        margin-top: 25px;
+        text-decoration: none;
+        color: rgba(255,255,255,0.4);
+        font-size: 0.9em;
+        transition: 0.3s;
+    }
+
+    .back-link:hover {
+        color: #FFAA00;
+    }

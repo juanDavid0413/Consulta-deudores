@@ -1,0 +1,42 @@
+{% load static %}
+{% block content %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+    <meta charset="UTF-8">
+    <title>Login Velonet Premium</title>
+ 
+
+    <div class="container">
+        <div class="inner-box">
+            <img src="{% static 'images/Logo3.png' %}" alt="Velonet Logo" class="logo-login">
+
+            <form method="post" class="form">
+                {% csrf_token %}
+                <h2>Inicia sesion</h2>
+
+                {% if form.non_field_errors %}
+                    <ul class="errorlist">
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                <p>Usuario</p>
+                {{ form.username }}
+                
+                <p>Contraseña</p>
+                {{ form.password }}
+
+                <input type="submit" value="Entrar ahora">
+
+                <div class="btns">
+                    ¿No tienes acceso? <br>comunicate con: <br>
+                    <span style="color: #FFAA00; font-weight: 700; text-transform: uppercase;">Innovación y Desarrollo</span>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,163 @@
+body {
+    color: white;
+    background-color: #0a0514; /* Aseguramos el fondo oscuro profundo */
+}
+
+#Menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 100px; /* Ajustado para el nuevo header grande */
+    gap: 40px;
+}
+
+/* Contenedor de la tarjeta con efecto Glow */
+.Menu-card {
+    position: relative;
+    width: 260px;
+    height: 320px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    text-decoration: none;
+    z-index: 1;
+}
+
+/* Borde animado de la tarjeta */
+.Menu-card::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(-45deg, #692A86, #FFAA00, #4a1a5c);
+    z-index: -2;
+    animation: rotate-border 6s linear infinite;
+}
+
+@keyframes rotate-border {
+    100% { transform: rotate(360deg); }
+}
+
+/* Fondo interno (Glassmorphism) */
+.Menu-card-inner {
+    position: absolute;
+    inset: 5px; /* Grosor del borde */
+    background: rgba(20, 10, 30, 0.85);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 5;
+    transition: background 0.3s;
+}
+
+.Menu-card:hover .Menu-card-inner {
+    background: rgba(30, 15, 45, 0.7);
+}
+
+.Menu-card:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+/* Estilo para los iconos */
+.Cards-img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 10px rgba(255, 170, 0, 0.3));
+    transition: 0.3s;
+}
+
+.Menu-card:hover .Cards-img {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 20px rgba(105, 42, 134, 0.6));
+}
+
+.Menu-card p {
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    margin: 0;
+}
+
+#Saludo {
+    padding: 40px 60px 0;
+    font-size: 1.2em;
+}
+
+#welcome-screen {
+position: fixed;
+top: 0; left: 0;
+width: 100%; height: 100%;
+background: #0a0514;
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 10000;
+transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+.welcome-content {
+text-align: center;
+}
+
+.welcome-logo {
+width: 250px;
+margin-bottom: 30px;
+filter: drop-shadow(0 0 20px rgba(255, 170, 0, 0.4));
+animation: pulse-logo 2s infinite ease-in-out;
+}
+
+.welcome-bar {
+width: 300px;
+height: 4px;
+background: rgba(255, 255, 255, 0.1);
+border-radius: 10px;
+margin: 0 auto 20px;
+overflow: hidden;
+position: relative;
+}
+
+.progress-fill {
+width: 0%;
+height: 100%;
+background: linear-gradient(90deg, #692A86, #FFAA00);
+box-shadow: 0 0 15px #FFAA00;
+animation: fill-bar 1.5s forwards ease-in-out;
+}
+
+.welcome-text {
+color: rgba(255, 255, 255, 0.6);
+font-size: 0.9em;
+letter-spacing: 3px;
+text-transform: uppercase;
+}
+
+/* Animaciones */
+@keyframes pulse-logo {
+0%, 100% { transform: scale(1); opacity: 0.8; }
+50% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes fill-bar {
+0% { width: 0%; }
+100% { width: 100%; }
+}
+
+/* Clase para ocultar */
+.fade-out {
+opacity: 0;
+visibility: hidden;
+}
