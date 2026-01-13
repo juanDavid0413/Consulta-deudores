@@ -8,15 +8,15 @@ body {
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: 100px; /* Ajustado para el nuevo header grande */
+    margin-top: 20px;
     gap: 40px;
 }
 
 /* Contenedor de la tarjeta con efecto Glow */
 .Menu-card {
     position: relative;
-    width: 260px;
-    height: 320px;
+    width: 330px;
+    height: 425px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -28,13 +28,13 @@ body {
     z-index: 1;
 }
 
-/* Borde animado de la tarjeta */
+/* Borde animado de la tarjeta*/ 
 .Menu-card::before {
     content: '';
     position: absolute;
     top: -50%; left: -50%;
     width: 200%; height: 200%;
-    background: linear-gradient(-45deg, #692A86, #FFAA00, #4a1a5c);
+    background: linear-gradient(-45deg, #b516ff, #FFAA00, #d470f8);
     z-index: -2;
     animation: rotate-border 6s linear infinite;
 }
@@ -84,7 +84,7 @@ body {
 
 .Menu-card p {
     color: #fff;
-    font-size: 1.1em;
+    font-size: 1.4em;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;

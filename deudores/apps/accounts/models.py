@@ -5,4 +5,6 @@ class Meta:
     permissions = [
         ("can_upload_excel", "Puede cargar archivos Excel"),
         ("can_consult_debtors", "Puede consultar deudores"),
+        ("can_upload_excel", "Puede cargar archivos Excel a BD2"),
+
     ]
