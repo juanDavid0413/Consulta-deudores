@@ -47,13 +47,19 @@ python manage.py runserver
 Accede a http://127.0.0.1:8000 en tu navegador.
 
 📁 Estructura del Proyecto
+/accounts: Lógica que maneja los usuarios y los permisos.
+
 /queries: Lógica principal de las consultas y vistas.
+
+/Uploads: Encargada de las cargas de archivos para alimentar el sheets.
 
 /services: Conectores para Wispro y Google Sheets API.
 
 /templates: Plantillas HTML con diseño corporativo.
 
 /credentials: Ubicación segura para llaves de API Google Sheets(Ignorado en Git).
+
+/statics: archivos estaticos como imagenes e iconos. 
 
 📧 Notificaciones
 El sistema envía automáticamente un correo HTML con diseño corporativo al administrador cuando un trámite es Denegado.
