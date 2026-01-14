@@ -41,7 +41,7 @@ class GoogleSheetsDebtorsService:
                 cedula_hoja_limpia = cedula_hoja_raw.lstrip('0').split('.')[0] # Quita 0s y .0
                 
                 # Si el target está contenido en la cédula de la hoja o viceversa
-                if target != "" and (target == cedula_hoja_limpia or target in cedula_hoja_raw):
+                if target != "" and target == cedula_hoja_limpia:
                     nombre = fila[0]
                     saldo_raw = fila[1]
                     

@@ -32,9 +32,9 @@ def consulta_deudor_view(request):
                 total_bd2 += valor
             except: continue
 
-# 1. Wispro es "Apto" si: 
-    #    A. El estado es POSITIVO (existe pero no debe nada)
-    #    B. O si el cliente NO EXISTE en Wispro (no tiene registros)
+        # 1. Wispro es "Apto" si: 
+        #    A. El estado es POSITIVO (existe pero no debe nada)
+        #    B. O si el cliente NO EXISTE en Wispro (no tiene registros)
         wispro_apto = (
             wispro_data.get('estado_final') == "POSITIVO" or 
             not wispro_data.get('existe')
